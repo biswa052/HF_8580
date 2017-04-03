@@ -13,8 +13,7 @@ def GfromP(P,basis):
 			while i<4:
 				while j<4:
 					gxyij = ee_repulsion4.repulsion(basis[x],basis[y],basis[i],basis[j])
-					gxjiy = ee_repulsion4.repulsion(basis[x],basis[j],basis[i],basis[y])
-					G[x,y] += P[i,j]*(gxyij - (gxjiy/2.))
+					G[x,y] += P[i,j]*gxyij
 					j+=1
 				j=0
 				i+=1
@@ -23,6 +22,18 @@ def GfromP(P,basis):
 		y=0
 		x+=1
 	return G
+
+def XCfromP(P,basis):
+	XC = np.zeros((4,4))
+	while x<4:
+		while y<4:
+			XC[x,y] += -1.*1.25*(10.**-4.)*vxxy(P,basis,x,y) #
+			#XC[x,y] += vcxy(P,basis,x,y) contribution from ec
+			#XC[x,y] += vcpxy(P,basis,x,y) contribiutin from ec'
+			y+=1
+		y=0
+		x+=1
+	return XC
 
 def PfromC(C,eps):
 	P = np.zeros((4,4))
